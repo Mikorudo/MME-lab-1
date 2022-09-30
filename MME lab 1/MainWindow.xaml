@@ -30,9 +30,9 @@
 				<TextBlock TextWrapping="Wrap" Grid.Row="0" Grid.Column="0" >Количество стратегий игрока A</TextBlock>
 				<TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="0" >Количество стратегий игрока B</TextBlock>
 				<TextBlock TextWrapping="Wrap" Grid.Row="2" Grid.Column="0" >Тип платёжной матрицы</TextBlock>
-				<TextBox Name="MatrixHeightInput" MaxLength="1" TextAlignment="Center" Grid.Row="0" Grid.Column="1">3</TextBox>
-				<TextBox Name="MatrixWidthInput" MaxLength="1" TextAlignment="Center" Grid.Row="1" Grid.Column="1">3</TextBox>
-				<TextBox Name="MatrixTypeInput" MaxLength="1" TextAlignment="Center" Grid.Row="2" Grid.Column="1">П</TextBox>
+				<TextBox Name="MatrixHeightInput" MaxLength="1" TextAlignment="Center" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top">3</TextBox>
+				<TextBox Name="MatrixWidthInput" MaxLength="1" TextAlignment="Center" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top">3</TextBox>
+				<TextBox Name="MatrixTypeInput" MaxLength="1" TextAlignment="Center" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top">П</TextBox>
 			</Grid>
 			<TextBlock Margin="2" TextWrapping="Wrap" TextAlignment="Center">П - проигрышей</TextBlock>
 			<TextBlock Margin="2" TextWrapping="Wrap" TextAlignment="Center">В - выигрышей</TextBlock>

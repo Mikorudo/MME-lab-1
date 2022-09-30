@@ -79,6 +79,7 @@ namespace MME_lab_1
 			{
 				TextBlock textBlock = new TextBlock();
 				textBlock.TextAlignment = TextAlignment.Center;
+				textBlock.Margin = new Thickness(0, 0, 0, 2);
 				Grid.SetColumn(textBlock, i);
 				Grid.SetRow(textBlock, 0);
 				textBlock.Text = "B" + i;
@@ -87,7 +88,8 @@ namespace MME_lab_1
 			for (int i = 1; i <= matrixHeight; i++)
 			{
 				TextBlock textBlock = new TextBlock();
-				textBlock.TextAlignment = TextAlignment.Center;
+				textBlock.TextAlignment = TextAlignment.Right;
+				textBlock.Margin = new Thickness(0, 0, 5, 0);
 				Grid.SetColumn(textBlock, 0);
 				Grid.SetRow(textBlock, i);
 				textBlock.Text = "A" + i;
@@ -151,6 +153,7 @@ namespace MME_lab_1
 
 			TextBlock textBlock1 = new TextBlock();
 			textBlock1.TextAlignment = TextAlignment.Center;
+			textBlock1.TextWrapping = TextWrapping.Wrap;
 			Grid.SetColumn(textBlock1, 0);
 			Grid.SetRow(textBlock1, 0);
 			textBlock1.Text = "Седловая точка";
@@ -158,6 +161,7 @@ namespace MME_lab_1
 
 			TextBlock textBlock2 = new TextBlock();
 			textBlock2.TextAlignment = TextAlignment.Center;
+			textBlock2.TextWrapping = TextWrapping.Wrap;
 			Grid.SetColumn(textBlock2, 1);
 			Grid.SetRow(textBlock2, 0);
 			Grid.SetColumnSpan(textBlock2, 3);
@@ -165,7 +169,8 @@ namespace MME_lab_1
 			newGrid.Children.Add(textBlock2);
 
 			TextBlock textBlock3 = new TextBlock();
-			textBlock2.TextAlignment = TextAlignment.Center;
+			textBlock3.TextAlignment = TextAlignment.Center;
+			textBlock3.TextWrapping = TextWrapping.Wrap;
 			Grid.SetColumn(textBlock3, 4);
 			Grid.SetRow(textBlock3, 0);
 			textBlock3.Text = "Байесовский подход";
