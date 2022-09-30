@@ -1,0 +1,118 @@
+﻿<Window x:Class="MME_lab_1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MME_lab_1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="455" Width="680">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition></RowDefinition>
+			<RowDefinition></RowDefinition>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition></ColumnDefinition>
+			<ColumnDefinition></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+		<StackPanel Margin="5" Grid.Row="0" Grid.Column="0">
+			<TextBlock Margin="2" TextAlignment="Center">Параметры матрицы</TextBlock>
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition></RowDefinition>
+					<RowDefinition></RowDefinition>
+					<RowDefinition></RowDefinition>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition></ColumnDefinition>
+					<ColumnDefinition></ColumnDefinition>
+				</Grid.ColumnDefinitions>
+				<TextBlock TextWrapping="Wrap" Grid.Row="0" Grid.Column="0" >Количество стратегий игрока A</TextBlock>
+				<TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="0" >Количество стратегий игрока B</TextBlock>
+				<TextBlock TextWrapping="Wrap" Grid.Row="2" Grid.Column="0" >Тип платёжной матрицы</TextBlock>
+				<TextBox Name="MatrixHeightInput" MaxLength="1" TextAlignment="Center" Grid.Row="0" Grid.Column="1">3</TextBox>
+				<TextBox Name="MatrixWidthInput" MaxLength="1" TextAlignment="Center" Grid.Row="1" Grid.Column="1">3</TextBox>
+				<TextBox Name="MatrixTypeInput" MaxLength="1" TextAlignment="Center" Grid.Row="2" Grid.Column="1">П</TextBox>
+			</Grid>
+			<TextBlock Margin="2" TextWrapping="Wrap" TextAlignment="Center">П - проигрышей</TextBlock>
+			<TextBlock Margin="2" TextWrapping="Wrap" TextAlignment="Center">В - выигрышей</TextBlock>
+			<Button Margin="5" Click="ChangeMatrix" Width="150">Изменить размер</Button>
+		</StackPanel>
+		<StackPanel Name="paramsSP" Margin="5" Grid.Row="1" Grid.Column="0">
+			<TextBlock Margin="2" TextWrapping="Wrap" TextAlignment="Center">Ввод коэффициента для подхода Гурвица</TextBlock>
+			<Grid Margin="5">
+				<Grid.RowDefinitions>
+					<RowDefinition></RowDefinition>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition></ColumnDefinition>
+					<ColumnDefinition></ColumnDefinition>
+				</Grid.ColumnDefinitions>
+				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" TextWrapping="Wrap" TextAlignment="Center">a</TextBlock>
+				<TextBox Name="aParamsInput" Grid.Row="0" Grid.Column="1" TextAlignment="Center">1</TextBox>
+			</Grid>
+			<TextBlock Margin="2" TextWrapping="Wrap" TextAlignment="Center">Ввод вероятностей для подхода Байеса</TextBlock>
+			<Grid Name="pParamsGrid" Margin="5">
+				<Grid.RowDefinitions>
+					<RowDefinition></RowDefinition>
+					<RowDefinition></RowDefinition>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition></ColumnDefinition>
+					<ColumnDefinition></ColumnDefinition>
+				</Grid.ColumnDefinitions>
+				<TextBlock Grid.Row="0" Grid.Column="0" TextAlignment="Center">p1</TextBlock>
+				<TextBlock Grid.Row="0" Grid.Column="1" TextAlignment="Center">p2</TextBlock>
+				<TextBox Grid.Row="1" Grid.Column="0" TextAlignment="Center">0,5</TextBox>
+				<TextBox Grid.Row="1" Grid.Column="1" TextAlignment="Center">0,5</TextBox>
+			</Grid>
+		</StackPanel>
+		
+		<StackPanel Name="matrixSP" Margin="5" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
+			<TextBlock Margin="2" TextAlignment="Center">Платёжная матрица</TextBlock>
+			<Grid Name="matrixGrid" Margin="5">
+				<Grid.RowDefinitions>
+					<RowDefinition></RowDefinition>
+					<RowDefinition></RowDefinition>
+					<RowDefinition></RowDefinition>
+					<RowDefinition></RowDefinition>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition></ColumnDefinition>
+					<ColumnDefinition></ColumnDefinition>
+					<ColumnDefinition></ColumnDefinition>
+					<ColumnDefinition></ColumnDefinition>
+				</Grid.ColumnDefinitions>
+				<TextBlock TextAlignment="Center" Grid.Row="1" Grid.Column="0">A1</TextBlock>
+				<TextBlock TextAlignment="Center" Grid.Row="2" Grid.Column="0">A2</TextBlock>
+				<TextBlock TextAlignment="Center" Grid.Row="3" Grid.Column="0">A3</TextBlock>
+				<TextBlock TextAlignment="Center" Grid.Row="0" Grid.Column="1">B1</TextBlock>
+				<TextBlock TextAlignment="Center" Grid.Row="0" Grid.Column="2">B2</TextBlock>
+				<TextBlock TextAlignment="Center" Grid.Row="0" Grid.Column="3">B3</TextBlock>
+				
+			</Grid>
+			<Grid Name="SolutionGrid" Margin="5">
+				<Grid.RowDefinitions>
+					<RowDefinition></RowDefinition>
+					<RowDefinition></RowDefinition>
+					<RowDefinition></RowDefinition>
+					<RowDefinition></RowDefinition>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition></ColumnDefinition>
+					<ColumnDefinition></ColumnDefinition>
+					<ColumnDefinition></ColumnDefinition>
+					<ColumnDefinition></ColumnDefinition>
+					<ColumnDefinition></ColumnDefinition>
+				</Grid.ColumnDefinitions>
+				<TextBlock Grid.Row="0" Grid.Column="0" TextWrapping="Wrap" TextAlignment="Center">Седловая точка</TextBlock>
+				<TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" TextWrapping="Wrap" TextAlignment="Center">Решение по критерию</TextBlock>
+				<TextBlock Grid.Row="0" Grid.Column="4" TextWrapping="Wrap" TextAlignment="Center">Байесовский подход</TextBlock>
+				<TextBlock Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" TextAlignment="Center">Гурвица</TextBlock>
+				<TextBlock Grid.Row="1" Grid.Column="2" TextWrapping="Wrap" TextAlignment="Center">Вальда</TextBlock>
+				<TextBlock Grid.Row="1" Grid.Column="3" TextWrapping="Wrap" TextAlignment="Center">Лапласа</TextBlock>
+			</Grid>
+			<Button Margin="5" Click="GetSolution" Width="150">Получить решение</Button>
+		</StackPanel>
+	</Grid>
+</Window>
