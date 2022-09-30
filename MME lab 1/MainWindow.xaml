@@ -36,7 +36,7 @@
 			</Grid>
 			<TextBlock Margin="2" TextWrapping="Wrap" TextAlignment="Center">П - проигрышей</TextBlock>
 			<TextBlock Margin="2" TextWrapping="Wrap" TextAlignment="Center">В - выигрышей</TextBlock>
-			<Button Margin="5" Click="ChangeMatrix" Width="150">Изменить размер</Button>
+			<Button Margin="5" Click="ChangeMatrixSize" Width="150">Изменить размер</Button>
 		</StackPanel>
 		<StackPanel Name="paramsSP" Margin="5" Grid.Row="1" Grid.Column="0">
 			<TextBlock Margin="2" TextWrapping="Wrap" TextAlignment="Center">Ввод коэффициента для подхода Гурвица</TextBlock>
