@@ -91,6 +91,21 @@
 				<TextBlock TextAlignment="Center" Grid.Row="0" Grid.Column="3">B3</TextBlock>
 				
 			</Grid>
+			<Grid Margin="5">
+				<Grid.RowDefinitions>
+					<RowDefinition></RowDefinition>
+					<RowDefinition></RowDefinition>
+					<RowDefinition></RowDefinition>
+					<RowDefinition></RowDefinition>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition></ColumnDefinition>
+					<ColumnDefinition></ColumnDefinition>
+				</Grid.ColumnDefinitions>
+				<TextBlock Grid.Column="0" TextWrapping="Wrap" TextAlignment="Center">Седловая точка</TextBlock>
+				<TextBlock Name="SaddlePoint" Grid.Column="1" TextWrapping="Wrap" TextAlignment="Center">СТ ОТВЕТ</TextBlock>
+				
+			</Grid>
 			<Grid Name="SolutionGrid" Margin="5">
 				<Grid.RowDefinitions>
 					<RowDefinition></RowDefinition>
@@ -105,7 +120,7 @@
 					<ColumnDefinition></ColumnDefinition>
 					<ColumnDefinition></ColumnDefinition>
 				</Grid.ColumnDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" TextWrapping="Wrap" TextAlignment="Center">Седловая точка</TextBlock>
+				<TextBlock Grid.Row="0" Grid.Column="0" TextWrapping="Wrap" TextAlignment="Center">Номер стратегии</TextBlock>
 				<TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" TextWrapping="Wrap" TextAlignment="Center">Решение по критерию</TextBlock>
 				<TextBlock Grid.Row="0" Grid.Column="4" TextWrapping="Wrap" TextAlignment="Center">Байесовский подход</TextBlock>
 				<TextBlock Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" TextAlignment="Center">Гурвица</TextBlock>
