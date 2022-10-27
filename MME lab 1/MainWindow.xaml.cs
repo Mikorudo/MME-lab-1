@@ -73,10 +73,10 @@ namespace MME_lab_1
 				switch (type)
 				{
 					case MatrixType.WinType:
-						for (int i = 0; i < array.GetLength(0); i++)
+						for (int j = 0; j < array.GetLength(1); j++)
 						{
 							double maxColumn = double.MinValue;
-							for (int j = 0; j < array.GetLength(1); j++)
+							for (int i = 0; i < array.GetLength(0); i++)
 							{
 								if (maxColumn < array[i, j])
 								{
@@ -85,19 +85,19 @@ namespace MME_lab_1
 							}
 							values.Add(maxColumn);
 						}
-						for (int i = 0; i < array.GetLength(0); i++)
+						for (int j = 0; j < array.GetLength(1); j++)
 						{
-							for (int j = 0; j < array.GetLength(1); j++)
+							for (int i = 0; i < array.GetLength(0); i++)
 							{
-								newMatrix[i, j] = Math.Round(values[j] - array[i, j], 1);
+								newMatrix[i, j] = Math.Round(values[i] - array[i, j], 1);
 							}
 						}
 						break;
 					case MatrixType.LoseType:
-						for (int i = 0; i < array.GetLength(0); i++)
+						for (int j = 0; j < array.GetLength(1); j++)
 						{
 							double minColumn = double.MaxValue;
-							for (int j = 0; j < array.GetLength(1); j++)
+							for (int i = 0; i < array.GetLength(0); i++)
 							{
 								if (minColumn > array[i, j])
 								{
@@ -106,9 +106,9 @@ namespace MME_lab_1
 							}
 							values.Add(minColumn);
 						}
-						for (int i = 0; i < array.GetLength(0); i++)
+						for (int j = 0; j < array.GetLength(1); j++)
 						{
-							for (int j = 0; j < array.GetLength(1); j++)
+							for (int i = 0; i < array.GetLength(0); i++)
 							{
 								newMatrix[i, j] = Math.Round(array[i, j] - values[j], 1);
 							}
@@ -586,31 +586,30 @@ namespace MME_lab_1
 		}
 		private void GetSolution(object sender, RoutedEventArgs e)
 		{
-			double alpha = Convert.ToDouble(aParamsInput.Text);
-			double[] probs = new double[matrixWidth];
-			for (int i = 0; i < matrixWidth; i++)
-				probs[i] = Convert.ToDouble(paramsInput[i].Text);
-			double[,] array = GetMatrixValues();
-			MatrixType matrixType = GetMatrixType();
-			if (matrixType == MatrixType.ErrorType)
-				throw new Exception("Ошибка в типе матрицы");
-			Matrix matrix = new Matrix(array, matrixType);
-			for (int i = 0; i < matrixHeight; i++)
-				solutionOutput[0, i].Text = i.ToString();
-			double? saddlePoint = matrix.GetSaddlePoint();
-			if (saddlePoint is null)
-				SaddlePoint.Text = "Нет";
-			else
-				SaddlePoint.Text = saddlePoint.ToString();
-			matrix.WaldCriteria(GetColumn(solutionOutput, 1));
-			matrix.HurwitzCriteria(alpha, GetColumn(solutionOutput, 2));
-			matrix.LaplaceCritera(GetColumn(solutionOutput, 3));
-			matrix.SavageCritera(GetColumn(solutionOutput, 4));
-			matrix.OptimismCritera(GetColumn(solutionOutput, 5));
-			matrix.BayesCriteria(probs, GetColumn(solutionOutput, 6));
 			try
 			{
-				
+				double alpha = Convert.ToDouble(aParamsInput.Text);
+				double[] probs = new double[matrixWidth];
+				for (int i = 0; i < matrixWidth; i++)
+					probs[i] = Convert.ToDouble(paramsInput[i].Text);
+				double[,] array = GetMatrixValues();
+				MatrixType matrixType = GetMatrixType();
+				if (matrixType == MatrixType.ErrorType)
+					throw new Exception("Ошибка в типе матрицы");
+				Matrix matrix = new Matrix(array, matrixType);
+				for (int i = 0; i < matrixHeight; i++)
+					solutionOutput[0, i].Text = i.ToString();
+				double? saddlePoint = matrix.GetSaddlePoint();
+				if (saddlePoint is null)
+					SaddlePoint.Text = "Нет";
+				else
+					SaddlePoint.Text = saddlePoint.ToString();
+				matrix.WaldCriteria(GetColumn(solutionOutput, 1));
+				matrix.HurwitzCriteria(alpha, GetColumn(solutionOutput, 2));
+				matrix.LaplaceCritera(GetColumn(solutionOutput, 3));
+				matrix.SavageCritera(GetColumn(solutionOutput, 4));
+				matrix.OptimismCritera(GetColumn(solutionOutput, 5));
+				matrix.BayesCriteria(probs, GetColumn(solutionOutput, 6));
 			}
 			catch (Exception ex)
 			{
