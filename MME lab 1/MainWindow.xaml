@@ -92,41 +92,56 @@
 				
 			</Grid>
 			<Grid Margin="5">
-				<Grid.RowDefinitions>
-					<RowDefinition></RowDefinition>
-					<RowDefinition></RowDefinition>
-					<RowDefinition></RowDefinition>
-					<RowDefinition></RowDefinition>
-				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition></ColumnDefinition>
 					<ColumnDefinition></ColumnDefinition>
 				</Grid.ColumnDefinitions>
 				<TextBlock Grid.Column="0" TextWrapping="Wrap" TextAlignment="Center">Седловая точка</TextBlock>
 				<TextBlock Name="SaddlePoint" Grid.Column="1" TextWrapping="Wrap" TextAlignment="Center">СТ ОТВЕТ</TextBlock>
-				
 			</Grid>
-			<Grid Name="SolutionGrid" Margin="5">
-				<Grid.RowDefinitions>
-					<RowDefinition></RowDefinition>
-					<RowDefinition></RowDefinition>
-					<RowDefinition></RowDefinition>
-					<RowDefinition></RowDefinition>
-				</Grid.RowDefinitions>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition></ColumnDefinition>
-					<ColumnDefinition></ColumnDefinition>
-					<ColumnDefinition></ColumnDefinition>
-					<ColumnDefinition></ColumnDefinition>
-					<ColumnDefinition></ColumnDefinition>
-				</Grid.ColumnDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" TextWrapping="Wrap" TextAlignment="Center">Номер стратегии</TextBlock>
-				<TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" TextWrapping="Wrap" TextAlignment="Center">Решение по критерию</TextBlock>
-				<TextBlock Grid.Row="0" Grid.Column="4" TextWrapping="Wrap" TextAlignment="Center">Байесовский подход</TextBlock>
-				<TextBlock Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" TextAlignment="Center">Гурвица</TextBlock>
-				<TextBlock Grid.Row="1" Grid.Column="2" TextWrapping="Wrap" TextAlignment="Center">Вальда</TextBlock>
-				<TextBlock Grid.Row="1" Grid.Column="3" TextWrapping="Wrap" TextAlignment="Center">Лапласа</TextBlock>
-			</Grid>
+			<StackPanel x:Name="SolutionSP">
+				<Grid Margin="5">
+					<Grid.RowDefinitions>
+						<RowDefinition></RowDefinition>
+						<RowDefinition></RowDefinition>
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition></ColumnDefinition>
+						<ColumnDefinition></ColumnDefinition>
+						<ColumnDefinition></ColumnDefinition>
+						<ColumnDefinition></ColumnDefinition>
+						<ColumnDefinition></ColumnDefinition>
+						<ColumnDefinition></ColumnDefinition>
+						<ColumnDefinition></ColumnDefinition>
+					</Grid.ColumnDefinitions>
+					<TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="7" TextWrapping="Wrap" 
+							   TextAlignment="Center">Решение по критерию</TextBlock>
+					<TextBlock Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" 
+							   TextAlignment="Center">Номер стратегии</TextBlock>
+
+					<TextBlock Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" 
+							   TextAlignment="Center">Вальда</TextBlock>
+
+					<TextBlock Grid.Row="1" Grid.Column="2" TextWrapping="Wrap" 
+							   TextAlignment="Center">Гурвица</TextBlock>
+
+					<TextBlock Grid.Row="1" Grid.Column="3" TextWrapping="Wrap" 
+							   TextAlignment="Center">Лапласа</TextBlock>
+
+					<TextBlock Grid.Row="1" Grid.Column="4" TextWrapping="Wrap" 
+							   TextAlignment="Center">Сэвиджа</TextBlock>
+
+					<TextBlock Grid.Row="1" Grid.Column="5" TextWrapping="Wrap" 
+							   TextAlignment="Center">Оптимизма</TextBlock>
+
+					<TextBlock Grid.Row="1" Grid.Column="6" TextWrapping="Wrap" 
+							   TextAlignment="Center">Байесовский подход</TextBlock>
+				</Grid>
+				<Grid  Name="SolutionGrid">
+					
+				</Grid>
+			</StackPanel>
+			
 			<Button Margin="5" Click="GetSolution" Width="150">Получить решение</Button>
 		</StackPanel>
 	</Grid>

@@ -35,7 +35,7 @@ namespace MME_lab_1
 				this.array = array;
 				this.type = type;
 			}
-			private double? GetSaddlePoint()
+			public double? GetSaddlePoint()
 			{
 				for (int i = 0; i < array.GetLength(0); i++)
 				{
@@ -65,140 +65,249 @@ namespace MME_lab_1
 				}
 				return true;
 			}
-			private void LaplaceCritera() // Добавить результат
+
+			public void SavageCritera(TextBlock[] solutionOutput)
 			{
-				List<(double, int, int)> values = new List<(double, int, int)>();
-				int i, j;
-				for (i = 0; i < array.GetLength(0); i++)
+				List<double> values = new List<double>();
+				double[,] newMatrix = new double[array.GetLength(0), array.GetLength(1)];
+				switch (type)
+				{
+					case MatrixType.WinType:
+						for (int i = 0; i < array.GetLength(0); i++)
+						{
+							double maxColumn = double.MinValue;
+							for (int j = 0; j < array.GetLength(1); j++)
+							{
+								if (maxColumn < array[i, j])
+								{
+									maxColumn = array[i, j];
+								}
+							}
+							values.Add(maxColumn);
+						}
+						for (int i = 0; i < array.GetLength(0); i++)
+						{
+							for (int j = 0; j < array.GetLength(1); j++)
+							{
+								newMatrix[i, j] = Math.Round(values[j] - array[i, j], 1);
+							}
+						}
+						break;
+					case MatrixType.LoseType:
+						for (int i = 0; i < array.GetLength(0); i++)
+						{
+							double minColumn = double.MaxValue;
+							for (int j = 0; j < array.GetLength(1); j++)
+							{
+								if (minColumn > array[i, j])
+								{
+									minColumn = array[i, j];
+								}
+							}
+							values.Add(minColumn);
+						}
+						for (int i = 0; i < array.GetLength(0); i++)
+						{
+							for (int j = 0; j < array.GetLength(1); j++)
+							{
+								newMatrix[i, j] = Math.Round(array[i, j] - values[j], 1);
+							}
+						}
+						break;
+					default:
+						break;
+				}
+				values.Clear();
+				for (int i = 0; i < newMatrix.GetLength(0); i++)
+				{
+					double maxRow = double.MinValue;
+					for (int j = 0; j < newMatrix.GetLength(1); j++)
+					{
+						if (maxRow < newMatrix[i, j])
+						{
+							maxRow = newMatrix[i, j];
+						}
+					}
+					values.Add(maxRow);
+				}
+				var minResult = values.Min(t => t);
+				for (int i = 0; i < array.GetLength(0); i++)
+				{
+					solutionOutput[i].Text = values[i].ToString();
+					if (values[i] == minResult)
+						solutionOutput[i].Background = new SolidColorBrush(Colors.Green);
+					else
+						solutionOutput[i].Background = new SolidColorBrush(Colors.Red);
+				}
+			}
+			public void LaplaceCritera(TextBlock[] solutionOutput) // Добавить результат
+			{
+				List<double> values = new List<double>();
+				for (int i = 0; i < array.GetLength(0); i++)
 				{
 					double sum = 0;
-					for (j = 0; j < array.GetLength(1); j++)
+					for (int j = 0; j < array.GetLength(1); j++)
 					{
 						sum += array[i, j];
 					}
-					values.Add((sum * (1.0 / array.GetLength(1)), i, j));
+					values.Add(sum * (1.0 / array.GetLength(1)));
 				}
 				switch (type)
 				{
 					case MatrixType.WinType:
-						double maxReuslt = values.Max(t => t.Item1);
-						//var maxResult = values.OrderByDescending(t => t.Item1).ToList().First();
-						//Console.WriteLine($"По критерию Лапласа: Решение: {maxResult.Item2 + 1}, значение {maxResult.Item1}");
+						double maxResult = values.Max(t => t);
+						for (int i = 0; i < array.GetLength(0); i++)
+						{
+							solutionOutput[i].Text = values[i].ToString();
+							if (values[i] == maxResult)
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Green);
+							else
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Red);
+						}
 						break;
 					case MatrixType.LoseType:
-						double minReulst = values.Min(t => t.Item1);
-						//var minResult = values.OrderBy(t => t.Item1).ToList().First();
-						//Console.WriteLine($"По критерию Лапласа: Решение: {minResult.Item2 + 1}, значение {minResult.Item1}");
+						double minResult = values.Min(t => t);
+						for (int i = 0; i < array.GetLength(0); i++)
+						{
+							solutionOutput[i].Text = values[i].ToString();
+							if (values[i] == minResult)
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Green);
+							else
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Red);
+						}
 						break;
 					default:
 						break;
 				}
 			}
 
-			private void WaldCriteria() //Вывод результата
+			public void WaldCriteria(TextBlock[] solutionOutput) //Вывод результата
 			{
-				List<(double, int, int)> values = new List<(double, int, int)>();
-				int i, j;
+				List<double> values = new List<double>();
 				switch (type)
 				{
 					case MatrixType.WinType:
-						for (i = 0; i < array.GetLength(0); i++)
+						for (int i = 0; i < array.GetLength(0); i++)
 						{
 							double minRow = double.MaxValue;
-							int index = 0;
-							for (j = 0; j < array.GetLength(1); j++)
+							for (int j = 0; j < array.GetLength(1); j++)
 							{
 								if (minRow > array[i, j])
 								{
 									minRow = array[i, j];
-									index = j;
 								}
 							}
-							values.Add((minRow, i, index));
+							values.Add(minRow);
 						}
-						var maxResult = values.Max(t => t.Item1);	//.OrderByDescending(t => t.Item1).ToList().First();
-						//Console.WriteLine($"По критерию Вальда:  Решение: {maxResult.Item2 + 1}, значение {maxResult.Item1}");
+
+						double maxResult = values.Max(t => t);
+						for (int i = 0; i < array.GetLength(0); i++)
+						{
+							solutionOutput[i].Text = values[i].ToString();
+							if (values[i] == maxResult)
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Green);
+							else
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Red);
+						}
 						break;
 					case MatrixType.LoseType:
 
-						for (i = 0; i < array.GetLength(0); i++)
+						for (int i = 0; i < array.GetLength(0); i++)
 						{
 							double maxRow = double.MinValue;
-							int index = 0;
-							for (j = 0; j < array.GetLength(1); j++)
+							for (int j = 0; j < array.GetLength(1); j++)
 							{
 								if (maxRow < array[i, j])
 								{
 									maxRow = array[i, j];
-									index = j;
 								}
 							}
-							values.Add((maxRow, i, j));
+							values.Add(maxRow);
 						}
-						var minResult = values.Min(t => t.Item1);	//OrderBy(t => t.Item1).ToList().First();
-						//Console.WriteLine($"По критерию Вальда: Решение: {minResult.Item2 + 1}, значение {minResult.Item1}");
+						double minResult = values.Min(t => t);
+						for (int i = 0; i < array.GetLength(0); i++)
+						{
+							solutionOutput[i].Text = values[i].ToString();
+							if (values[i] == minResult)
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Green);
+							else
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Red);
+						}
 						break;
 					default:
 						break;
 				}
 			}
 
-			private void HurwitzCriteria(double alpha) //Вывод
+			public void HurwitzCriteria(double alpha, TextBlock[] solutionOutput) //Вывод
 			{
-				List<(double, int, int)> values = new List<(double, int, int)>();
-				int i, j;
+				List<double> values = new List<double>();
 				double minRow, maxRow;
 				switch (type)
 				{
 					case MatrixType.WinType:
-						for (i = 0; i < array.GetLength(0); i++)
+						for (int i = 0; i < array.GetLength(0); i++)
 						{
 							minRow = int.MaxValue;
 							maxRow = int.MinValue;
-							for (j = 0; j < array.GetLength(1); j++)
+							for (int j = 0; j < array.GetLength(1); j++)
 							{
 								if (minRow > array[i, j])
 									minRow = array[i, j];
 								if (maxRow < array[i, j]) maxRow = array[i, j];
 							}
-							values.Add((alpha * maxRow + (1 - alpha) * minRow, i, j));
+							values.Add(alpha * maxRow + (1 - alpha) * minRow);
 						}
-						var maxResult = values.Max(t => t.Item1); //.OrderByDescending(t => t.Item1).ToList().First();
-						//Console.WriteLine($"По критерию Гурвица:  Решение: {maxResult.Item2 + 1} значение {maxResult.Item1}");
+						double maxResult = values.Max(t => t);
+						for (int i = 0; i < array.GetLength(0); i++)
+						{
+							solutionOutput[i].Text = values[i].ToString();
+							if (values[i] == maxResult)
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Green);
+							else
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Red);
+						}
 						break;
 					case MatrixType.LoseType:
-						for (i = 0; i < array.GetLength(0); i++)
+						for (int i = 0; i < array.GetLength(0); i++)
 						{
 							minRow = int.MaxValue;
 							maxRow = int.MinValue;
-							for (j = 0; j < array.GetLength(1); j++)
+							for (int j = 0; j < array.GetLength(1); j++)
 							{
 								if (minRow > array[i, j])
 									minRow = array[i, j];
 								if (maxRow < array[i, j]) maxRow = array[i, j];
 							}
-							values.Add((alpha * minRow + (1 - alpha) * maxRow, i, j));
+							values.Add(alpha * minRow + (1 - alpha) * maxRow);
 						}
-						var minResult = values.Min(t => t.Item1);//.OrderBy(t => t.Item1).ToList().First();
-						//Console.WriteLine($"По критерию Гурвица:  Решение: {minResult.Item2 + 1} значение {minResult.Item1}");
+
+						double minResult = values.Min(t => t);
+						for (int i = 0; i < array.GetLength(0); i++)
+						{
+							solutionOutput[i].Text = values[i].ToString();
+							if (values[i] == minResult)
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Green);
+							else
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Red);
+						}
 						break;
 					default:
 						break;
 				}
 			}
 
-			private void OptimismCritera()
+			public void OptimismCritera(TextBlock[] solutionOutput)
 			{
-				List<(double, int, int)> values = new List<(double, int, int)>();
-				int i, j;
+				List<double> values = new List<double>();
 				switch (type)
 				{
 					case MatrixType.WinType:
-						for (i = 0; i < array.GetLength(0); i++)
+						for (int i = 0; i < array.GetLength(0); i++)
 						{
 							double maxRow = double.MinValue;
 							int index = 0;
-							for (j = 0; j < array.GetLength(1); j++)
+							for (int j = 0; j < array.GetLength(1); j++)
 							{
 								if (maxRow < array[i, j])
 								{
@@ -206,17 +315,24 @@ namespace MME_lab_1
 									index = j;
 								}
 							}
-							values.Add((maxRow, i, j));
+							values.Add(maxRow);
 						}
-						var maxResult = values.OrderByDescending(t => t.Item1).ToList().First();
-						//Console.WriteLine($"По критерию оптимизма: Решение: {maxResult.Item2 + 1}, значение {maxResult.Item1}");
+						double maxResult = values.Max(t => t);
+						for (int i = 0; i < array.GetLength(0); i++)
+						{
+							solutionOutput[i].Text = values[i].ToString();
+							if (values[i] == maxResult)
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Green);
+							else
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Red);
+						}
 						break;
 					case MatrixType.LoseType:
-						for (i = 0; i < array.GetLength(0); i++)
+						for (int i = 0; i < array.GetLength(0); i++)
 						{
 							double minRow = double.MaxValue;
 							int index = 0;
-							for (j = 0; j < array.GetLength(1); j++)
+							for (int j = 0; j < array.GetLength(1); j++)
 							{
 								if (minRow > array[i, j])
 								{
@@ -224,19 +340,26 @@ namespace MME_lab_1
 									index = j;
 								}
 							}
-							values.Add((minRow, i, index));
+							values.Add(minRow);
 						}
-						var minResult = values.OrderBy(t => t.Item1).ToList().First();
-						//Console.WriteLine($"По критерию оптимизма:  Решение: {minResult.Item2 + 1}, значение {minResult.Item1}");
+						double minResult = values.Min(t => t);
+						for (int i = 0; i < array.GetLength(0); i++)
+						{
+							solutionOutput[i].Text = values[i].ToString();
+							if (values[i] == minResult)
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Green);
+							else
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Red);
+						}
 						break;
 					default:
 						break;
 				}
 			}
 
-			private void BayesCriteria(double[] probs)
+			public void BayesCriteria(double[] probs, TextBlock[] solutionOutput)
 			{
-				if (array.GetLength(0) != probs.Length)
+				if (array.GetLength(1) != probs.Length)
 				{
 					throw new Exception("Кол-во вероятностей и строк не совпадает!");
 				}
@@ -244,26 +367,39 @@ namespace MME_lab_1
 				{
 					throw new Exception("Сумма вероятностей не равна 1!");
 				}
-				List<(double, int, int)> values = new List<(double, int, int)>();
-				int i, j;
-				for (i = 0; i < array.GetLength(0); i++)
+				List<double> values = new List<double>();
+				for (int i = 0; i < array.GetLength(0); i++)
 				{
 					double sum = 0;
-					for (j = 0; j < array.GetLength(1); j++)
+					for (int j = 0; j < array.GetLength(1); j++)
 					{
 						sum += array[i, j] * probs[j];
 					}
-					values.Add((sum, i, j));
+					values.Add(sum);
 				}
 				switch (type)
 				{
 					case MatrixType.WinType:
-						var maxResult = values.OrderByDescending(t => t.Item1).ToList().First();
-						//Console.WriteLine($"По байесовскому методу: Решение: {maxResult.Item2 + 1}, значение {maxResult.Item1}");
+						var maxResult = values.Max(t=>t);
+						for (int i = 0; i < array.GetLength(0); i++)
+						{
+							solutionOutput[i].Text = values[i].ToString();
+							if (values[i] == maxResult)
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Green);
+							else
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Red);
+						}
 						break;
 					case MatrixType.LoseType:
-						var minResult = values.OrderBy(t => t.Item1).ToList().First();
-						//Console.WriteLine($"По байесовскому методу: Решение: {minResult.Item2 + 1}, значение {minResult.Item1}");
+						var minResult = values.Min(t => t);
+						for (int i = 0; i < array.GetLength(0); i++)
+						{
+							solutionOutput[i].Text = values[i].ToString();
+							if (values[i] == minResult)
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Green);
+							else
+								solutionOutput[i].Background = new SolidColorBrush(Colors.Red);
+						}
 						break;
 					default:
 						break;
@@ -281,6 +417,7 @@ namespace MME_lab_1
 		private int matrixHeight;
 		TextBox[,] matrixInput;
 		TextBox[] paramsInput;
+		TextBlock[,] solutionOutput;
 
 		private void ChangeMatrixSize(object sender, RoutedEventArgs e)
 		{
@@ -319,7 +456,7 @@ namespace MME_lab_1
 			double[,] array = new double[matrixHeight, matrixWidth];
 			for (int i = 0; i < matrixHeight; i++)
 				for (int j = 0; j < matrixWidth; j++)
-					array[i, j] = Convert.ToDouble(matrixInput[i, j]);
+					array[i, j] = Convert.ToDouble(matrixInput[i, j].Text);
 			return array;
 		}
 		private void ChangeInputMatrix()
@@ -414,90 +551,66 @@ namespace MME_lab_1
 		{
 			#region 1
 			Grid newGrid = new Grid();
-			newGrid.Margin = new Thickness(5, 5, 5, 5);
-			for (int i = 0; i < 5; i++)
+			//newGrid.Margin = new Thickness(5, 5, 5, 5);
+			for (int i = 0; i < 7; i++)
 				newGrid.ColumnDefinitions.Add(new ColumnDefinition());
 			for (int i = 0; i < 2 + matrixHeight; i++)
 				newGrid.RowDefinitions.Add(new RowDefinition());
 			#endregion
 			#region 2
-
-			TextBlock textBlock1 = new TextBlock();
-			textBlock1.TextAlignment = TextAlignment.Center;
-			textBlock1.TextWrapping = TextWrapping.Wrap;
-			Grid.SetColumn(textBlock1, 0);
-			Grid.SetRow(textBlock1, 0);
-			textBlock1.Text = "Седловая точка";
-			newGrid.Children.Add(textBlock1);
-
-			TextBlock textBlock2 = new TextBlock();
-			textBlock2.TextAlignment = TextAlignment.Center;
-			textBlock2.TextWrapping = TextWrapping.Wrap;
-			Grid.SetColumn(textBlock2, 1);
-			Grid.SetRow(textBlock2, 0);
-			Grid.SetColumnSpan(textBlock2, 3);
-			textBlock2.Text = "Решение по критерию";
-			newGrid.Children.Add(textBlock2);
-
-			TextBlock textBlock3 = new TextBlock();
-			textBlock3.TextAlignment = TextAlignment.Center;
-			textBlock3.TextWrapping = TextWrapping.Wrap;
-			Grid.SetColumn(textBlock3, 4);
-			Grid.SetRow(textBlock3, 0);
-			textBlock3.Text = "Байесовский подход";
-			newGrid.Children.Add(textBlock3);
-
-			TextBlock textBlock4 = new TextBlock();
-			textBlock4.TextAlignment = TextAlignment.Center;
-			Grid.SetColumn(textBlock4, 1);
-			Grid.SetRow(textBlock4, 1);
-			textBlock4.Text = "Гурвица";
-			newGrid.Children.Add(textBlock4);
-
-			TextBlock textBlock5 = new TextBlock();
-			textBlock5.TextAlignment = TextAlignment.Center;
-			Grid.SetColumn(textBlock5, 2);
-			Grid.SetRow(textBlock5, 1);
-			textBlock5.Text = "Вальда";
-			newGrid.Children.Add(textBlock5);
-
-			TextBlock textBlock6 = new TextBlock();
-			textBlock6.TextAlignment = TextAlignment.Center;
-			Grid.SetColumn(textBlock6, 3);
-			Grid.SetRow(textBlock6, 1);
-			textBlock6.Text = "Лапласа";
-			newGrid.Children.Add(textBlock6);
-
-			for (int i = 0; i < 5; i++)
+			solutionOutput = new TextBlock[7, matrixHeight];
+			for (int i = 0; i < 7; i++)
 			{
 				for (int j = 0; j < matrixHeight; j++)
 				{
 					TextBlock textBlock = new TextBlock();
+					solutionOutput[i, j] = textBlock;
 					textBlock.TextAlignment = TextAlignment.Center;
 					Grid.SetColumn(textBlock, i);
-					Grid.SetRow(textBlock, j + 2);
+					Grid.SetRow(textBlock, j);
 					textBlock.Text = "текст";
 					newGrid.Children.Add(textBlock);
 				}
 			}
 			#endregion
 			#region 3
-			int index = matrixSP.Children.IndexOf(SolutionGrid);
-			matrixSP.Children.RemoveAt(index);
+			int index = SolutionSP.Children.IndexOf(SolutionGrid);
+			SolutionSP.Children.RemoveAt(index);
 			SolutionGrid = newGrid;
-			matrixSP.Children.Insert(index, newGrid);
+			SolutionSP.Children.Insert(index, newGrid);
 			#endregion
 		}
-
+		private TextBlock[] GetColumn(TextBlock[,] matrix, int columnNumber)
+		{
+			return Enumerable.Range(0, matrixHeight).Select(x => solutionOutput[columnNumber, x]).ToArray();
+		}
 		private void GetSolution(object sender, RoutedEventArgs e)
 		{
+			double alpha = Convert.ToDouble(aParamsInput.Text);
+			double[] probs = new double[matrixWidth];
+			for (int i = 0; i < matrixWidth; i++)
+				probs[i] = Convert.ToDouble(paramsInput[i].Text);
+			double[,] array = GetMatrixValues();
+			MatrixType matrixType = GetMatrixType();
+			if (matrixType == MatrixType.ErrorType)
+				throw new Exception("Ошибка в типе матрицы");
+			Matrix matrix = new Matrix(array, matrixType);
+			for (int i = 0; i < matrixHeight; i++)
+				solutionOutput[0, i].Text = i.ToString();
+			double? saddlePoint = matrix.GetSaddlePoint();
+			if (saddlePoint is null)
+				SaddlePoint.Text = "Нет";
+			else
+				SaddlePoint.Text = saddlePoint.ToString();
+			matrix.WaldCriteria(GetColumn(solutionOutput, 1));
+			matrix.HurwitzCriteria(alpha, GetColumn(solutionOutput, 2));
+			matrix.LaplaceCritera(GetColumn(solutionOutput, 3));
+			matrix.SavageCritera(GetColumn(solutionOutput, 4));
+			matrix.OptimismCritera(GetColumn(solutionOutput, 5));
+			matrix.BayesCriteria(probs, GetColumn(solutionOutput, 6));
 			try
 			{
-				double[,] array = GetMatrixValues();
-				MatrixType matrixType = GetMatrixType();
-				if (matrixType == MatrixType.ErrorType)
-					throw new Exception("Ошибка в типе матрицы");
-				Matrix matrix = new Matrix(array, matrixType);
+				
 			}
 			catch (Exception ex)
 			{
