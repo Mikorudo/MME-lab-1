@@ -363,10 +363,6 @@ namespace MME_lab_1
 				{
 					throw new Exception("Кол-во вероятностей и строк не совпадает!");
 				}
-				if (probs.Sum() != 1)
-				{
-					throw new Exception("Сумма вероятностей не равна 1!");
-				}
 				List<double> values = new List<double>();
 				for (int i = 0; i < array.GetLength(0); i++)
 				{
@@ -429,8 +425,6 @@ namespace MME_lab_1
 					throw new Exception("Недостаточный размер матрицы");
 				matrixInput = new TextBox[matrixHeight, matrixWidth];
 				paramsInput = new TextBox[matrixWidth];
-				
-
 				ChangeInputMatrix();
 				ChangeInputParams();
 				ChangeSolutionGrid();
@@ -589,9 +583,17 @@ namespace MME_lab_1
 			try
 			{
 				double alpha = Convert.ToDouble(aParamsInput.Text);
+				if (alpha > 1 || alpha < 0)
+					throw new Exception("Критерий оптимизма не верен!");
 				double[] probs = new double[matrixWidth];
 				for (int i = 0; i < matrixWidth; i++)
+                {
 					probs[i] = Convert.ToDouble(paramsInput[i].Text);
+                    if (probs[i] < 0)
+						throw new Exception("Вероятность меньше нуля!");
+				}
+				if(probs.Sum() != 1)
+					throw new Exception("Сумма вероятностей не равна 1!");
 				double[,] array = GetMatrixValues();
 				MatrixType matrixType = GetMatrixType();
 				if (matrixType == MatrixType.ErrorType)
